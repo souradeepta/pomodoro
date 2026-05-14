@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  font-family: Inter, sans-serif;
+  background: #d95550;
+  color: white;
+}
+
+.app {
+  max-width: 600px;
+  margin: auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+/* modes */
+.modes button {
+  margin: 5px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+}
+
+.modes .active {
+  background: white;
+  color: #d95550;
+}
+
+/* timer */
+.timerWrap {
+  position: relative;
+  width: 300px;
+  margin: 30px auto;
+}
+
+.bgCircle {
+  fill: none;
+  stroke: rgba(255,255,255,0.2);
+  stroke-width: 10;
+}
+
+.progressCircle {
+  fill: none;
+  stroke: white;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+.timeText {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+/* controls */
+.controls button {
+  margin: 5px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+}
+
+/* tasks */
+.tasks input {
+  padding: 10px;
+  width: 80%;
+  border-radius: 10px;
+  border: none;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+}
