@@ -15,6 +15,8 @@ type State = {
   remaining: number;
   total: number;
 
+  theme: "light" | "dark";
+
   settings: {
     pomodoro: number;
     short: number;
@@ -22,6 +24,8 @@ type State = {
   };
 
   tasks: Task[];
+
+  setTheme: (theme: "light" | "dark") => void;
 
   setMode: (mode: Mode) => void;
   tick: () => void;
@@ -41,6 +45,8 @@ export const useStore = create<State>()(
       total: 1500,
       remaining: 1500,
 
+      theme: "dark",
+
       settings: {
         pomodoro: 25,
         short: 5,
@@ -49,8 +55,11 @@ export const useStore = create<State>()(
 
       tasks: [],
 
+      setTheme: (theme) => set({ theme }),
+
       setMode: (mode) => {
         const s = get().settings;
+
         const total =
           mode === "pomodoro"
             ? s.pomodoro * 60
@@ -58,15 +67,19 @@ export const useStore = create<State>()(
             ? s.short * 60
             : s.long * 60;
 
-        set({ mode, total, remaining: total, running: false });
+        set({
+          mode,
+          total,
+          remaining: total,
+          running: false,
+        });
       },
 
       tick: () => {
         const { remaining, mode, setMode } = get();
 
         if (remaining <= 1) {
-          if (mode === "pomodoro") setMode("short");
-          else setMode("pomodoro");
+          setMode(mode === "pomodoro" ? "short" : "pomodoro");
           return;
         }
 
@@ -75,6 +88,7 @@ export const useStore = create<State>()(
 
       start: () => set({ running: true }),
       pause: () => set({ running: false }),
+
       reset: () => {
         const { setMode, mode } = get();
         setMode(mode);
@@ -84,7 +98,11 @@ export const useStore = create<State>()(
         set((state) => ({
           tasks: [
             ...state.tasks,
-            { id: crypto.randomUUID(), text, done: false },
+            {
+              id: crypto.randomUUID(),
+              text,
+              done: false,
+            },
           ],
         })),
 

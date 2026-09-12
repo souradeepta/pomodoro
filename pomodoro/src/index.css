@@ -1,83 +1,273 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+  --bg1: #0f172a;
+  --bg2: #1e293b;
+
+  --card: rgba(255,255,255,0.08);
+  --card-border: rgba(255,255,255,0.12);
+
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.6);
+
+  --accent: #7c3aed;
+  --accent2: #22c55e;
+}
+
 body {
   margin: 0;
-  font-family: Inter, sans-serif;
-  background: #d95550;
-  color: white;
+  font-family: Inter, system-ui;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* soft floating noise layer */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+/* APP LAYOUT */
 .app {
-  max-width: 600px;
+  max-width: 720px;
   margin: auto;
   padding: 40px 20px;
-  text-align: center;
 }
 
-/* modes */
+/* ISLAND CARD */
+.card {
+  background: var(--card);
+  border-radius: 28px;
+  padding: 28px;
+  backdrop-filter: blur(18px);
+  transition: background 0.3s ease;
+}
+
+/* TOP BAR */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  opacity: 0.9;
+}
+
+/* MODE PILLS (Material You style) */
+.modes {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
 .modes button {
-  margin: 5px;
-  padding: 8px 14px;
-  border-radius: 999px;
   border: none;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
   cursor: pointer;
+  transition: all 0.25s ease;
+  font-weight: 500;
+}
+
+.modes button:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.12);
 }
 
 .modes .active {
-  background: white;
-  color: #d95550;
+  background: linear-gradient(135deg, var(--accent), #4f46e5);
+  color: white;
+  box-shadow: 0 8px 20px rgba(124,58,237,0.3);
 }
 
-/* timer */
+/* TIMER ISLAND */
 .timerWrap {
   position: relative;
-  width: 300px;
+  width: 320px;
+  height: 320px;
   margin: 30px auto;
 }
 
-.bgCircle {
+/* soft glow behind circle */
+.timerWrap::before {
+  content: "";
+  position: absolute;
+  inset: 30px;
+  background: radial-gradient(circle, rgba(124,58,237,0.25), transparent 70%);
+  filter: blur(20px);
+  z-index: 0;
+}
+
+circle {
   fill: none;
-  stroke: rgba(255,255,255,0.2);
   stroke-width: 10;
 }
 
+.bgCircle {
+  stroke: rgba(255,255,255,0.08);
+}
+
 .progressCircle {
-  fill: none;
-  stroke: white;
-  stroke-width: 10;
+  stroke: url(#grad);
   stroke-linecap: round;
   transform: rotate(-90deg);
   transform-origin: center;
 }
 
+/* TIME TEXT */
 .timeText {
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
-  font-size: 48px;
-  font-weight: bold;
+  font-size: 56px;
+  font-weight: 600;
+  letter-spacing: -1px;
 }
 
-/* controls */
+/* CONTROLS */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
 .controls button {
-  margin: 5px;
-  padding: 10px 14px;
-  border-radius: 10px;
   border: none;
+  padding: 10px 16px;
+  border-radius: 14px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  transition: 0.2s;
 }
 
-/* tasks */
-.tasks input {
-  padding: 10px;
-  width: 80%;
-  border-radius: 10px;
-  border: none;
+.controls button:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.14);
+}
+
+/* TASK ISLAND */
+.tasks {
+  margin-top: 20px;
 }
 
 .task {
   display: flex;
   justify-content: space-between;
+  padding: 12px 14px;
   margin-top: 10px;
-  padding: 10px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.2s;
+}
+
+.task:hover {
+  transform: translateY(-1px);
   background: rgba(255,255,255,0.1);
-  border-radius: 10px;
+}
+
+/* INPUT */
+.tasks input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  color: white;
+  outline: none;
+}
+
+/* MODAL (glass sheet) */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: grid;
+  place-items: center;
+}
+
+.modal-box {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 20px;
+  width: 320px;
+}
+
+body[data-theme="dark"] {
+  --bg: #0f172a;
+  --card: rgba(255,255,255,0.08);
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.6);
+  --accent: #7c3aed;
+}
+
+body[data-theme="light"] {
+  --bg: #f8fafc;
+  --card: rgba(255,255,255,0.9);
+  --text: #0f172a;
+  --muted: #475569;
+  --accent: #4f46e5;
+}
+
+.themeToggle {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.1);
+  color: var(--text);
+}
+.shortcutsCard {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(16px);
+}
+
+.shortcutsCard h3 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.shortcutsList {
+  display: grid;
+  gap: 8px;
+}
+
+.shortcutRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.shortcutKey {
+  font-family: monospace;
+  background: rgba(255,255,255,0.12);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.shortcutAction {
+  opacity: 0.8;
 }
