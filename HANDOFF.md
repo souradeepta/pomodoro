@@ -1,46 +1,55 @@
-# Pomodoro Timer - Handoff Notes
+# Pomofocus handoff
 
-## Project
-A React + Zustand Pomodoro timer application (Vite) with theme toggle and keyboard shortcuts support.
+## Repository state
 
-## Current Branch
-`main`
+- Branch: `main`
+- Application root: `pomodoro/`
+- Stack: React 19, TypeScript, Vite 8, Zustand
+- Persistence: browser local storage (`pomodoro-app`); there is no backend or
+  environment configuration.
 
-## Latest Commit
-**feat: add keyboard shortcuts, shortcuts help overlay, and theme toggle**
+## Current product baseline
 
-Commit: `e3f98eb`
+The production baseline is implemented and specified in
+[`pomodoro/docs/PRODUCTION_SPEC.md`](pomodoro/docs/PRODUCTION_SPEC.md).
 
-## What This Commit Added
-- **Keyboard Shortcuts Hook** (`src/hooks/useKeyboardShortcuts.ts`): Comprehensive keyboard shortcut handling
-  - Space: Start/Pause timer
-  - 1/2/3: Switch between Pomodoro/Short Break/Long Break modes
-  - T: Focus task input
-  - S: Toggle settings
-  - Ctrl+T, Ctrl+I, Ctrl+D, Ctrl+N, Ctrl+P: Additional task management shortcuts
-  
-- **Shortcuts Help Component** (`src/components/ShortcutsHelp.tsx`): Displays reference card of all available keyboard shortcuts
-  
-- **Theme Toggle Component** (`src/components/ThemeToggle.tsx`): Button to switch between light and dark themes with emoji indicators (☀️/🌙)
-  
-- **Store Updates**: Added theme state management to Zustand store with persistence
-  - Theme persisted via `persist` middleware
-  - Default theme: "dark"
-  
-- **Styling**: 254 lines of CSS added to `src/index.css` for:
-  - Light/dark theme variables and toggling
-  - Shortcuts card styling
-  - Theme button styling
+- Deadline-based timing stays accurate through backgrounding and reloads.
+- Focus, short-break, and long-break modes are available; every fourth Focus
+  completion selects the long break.
+- Tasks, settings, completed-session count, and theme persist locally.
+- **Night mode is present and is the default.** The top-bar theme control
+  switches between the persisted Dark and Light themes.
+- Keyboard shortcuts are Space, 1/2/3, T, and S; they are ignored in editable
+  controls.
 
-## Status
-**Feature complete as of 2026-09-12**
+## Validation and release workflow
 
-All new components are fully integrated into App.tsx, theme state is persisted, and keyboard shortcuts are functional. Ready for deployment.
+From `pomodoro/`, run:
 
-## To Resume From Git
+```bash
+npm install
+npm run lint
+npm run build
+```
+
+For a final smoke test, check start/pause/reset, all modes, settings, task
+add/complete/delete, Dark/Light switching, shortcuts, a reload during an active
+timer, and a mobile-width layout. Build artifacts in `pomodoro/dist/` are
+generated and are not source-of-truth files.
+
+## Useful entry points
+
+- `src/app/store.ts` — persisted domain state and timing rules
+- `src/hooks/useTimer.ts` — timer polling lifecycle
+- `src/App.tsx` — page composition, theme application, modal lifecycle
+- `src/index.css` — responsive styling and both theme token sets
+- `docs/ARCHITECTURE.md` — implementation constraints for contributors
+
+## Resume
+
 ```bash
 git clone git@github.com:souradeepta/pomodoro.git
-cd pomodoro
+cd pomodoro/pomodoro
 npm install
 npm run dev
 ```

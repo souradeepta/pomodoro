@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useStore } from "../app/store";
+import { formatTime } from "../utils/formatTime";
 
 export function Timer() {
   const remaining = useStore((s) => s.remaining);
@@ -11,16 +12,11 @@ export function Timer() {
   const progress = total > 0 ? remaining / total : 0;
   const offset = circumference * (1 - progress);
 
-  const minutes = Math.floor(remaining / 60);
-  const seconds = remaining % 60;
-
-  const formatted = `${String(minutes).padStart(2, "0")}:${String(
-    seconds
-  ).padStart(2, "0")}`;
+  const formatted = formatTime(remaining);
 
   return (
-    <div className="timerWrap">
-      <svg width="320" height="320" viewBox="0 0 320 320">
+    <div className="timerWrap" role="timer" aria-label={`Time remaining ${formatted}`}>
+      <svg width="320" height="320" viewBox="0 0 320 320" aria-hidden="true">
         {/* Gradient definition */}
         <defs>
           <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -50,7 +46,7 @@ export function Timer() {
       </svg>
 
       {/* Time display */}
-      <div className="timeText">
+      <div className="timeText" aria-live="polite">
         {formatted}
       </div>
     </div>

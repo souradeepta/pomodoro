@@ -1,73 +1,57 @@
-# React + TypeScript + Vite
+# Pomofocus
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A private, local-first Pomodoro timer for focused work. It runs entirely in
+the browser: no account, API, or task data leaves the device.
 
-Currently, two official plugins are available:
+## Usage
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Choose Focus, Short break, or Long break, then press Start. Completing four
+  Focus sessions schedules a Long break; other Focus sessions schedule a Short
+  break.
+- Pause or reset the active session at any time. A completed session stops so
+  the next one always starts intentionally.
+- Add tasks, check them off, or delete them from the task list. Tasks persist
+  across reloads in this browser.
+- Open **Settings** to set Focus, Short break, and Long break durations from
+  1–180 minutes. Saving resets the active session.
+- Pomofocus starts in **night mode** (dark theme). Use the Dark/Light button in
+  the top bar to change it; the preference persists across reloads.
 
-## React Compiler
+## Keyboard shortcuts
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `Space` — start or pause
+- `1`, `2`, `3` — Focus, Short break, Long break
+- `T` — focus the task input
+- `S` — open settings
 
-## Expanding the ESLint configuration
+Shortcuts do not run while typing into a form control.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Development
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Run from this directory:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Vite prints the local development URL. To create and inspect a production
+bundle:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run lint
+npm run build
+npm run preview
 ```
+
+The project requires a current Node.js release compatible with Vite 8. Keep
+changes type-safe and run both `npm run lint` and `npm run build` before a
+release. The application state is stored under the `pomodoro-app` local-storage
+key; clearing that key resets tasks, settings, theme, and session history.
+
+## Product and engineering references
+
+See [`docs/PRODUCTION_SPEC.md`](docs/PRODUCTION_SPEC.md) for the behavior
+contract and release checklist, [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+for the implementation design, and [`../HANDOFF.md`](../HANDOFF.md) for the
+current repository handoff state.
